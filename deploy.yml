@@ -1,0 +1,5 @@
+name: Deploy to Production
+on:
+  push:
+    branches:
+      - master # Remplacez par le nom de votre branche principale
