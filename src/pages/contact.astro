@@ -1,0 +1,57 @@
+---
+const pageTitle = "Contact"; // Titre de la page
+import Layout from "../layouts/BlogPost.astro";
+---
+
+<Layout
+  title="Contact"
+  description="Lorem ipsum dolor sit amet"
+  pubDate={new Date("August 08 2021")}
+  heroImage="/blog-placeholder-about.jpg"
+>
+  <article>
+    <h1>{pageTitle}</h1>
+
+    <form id="contactForm">
+      <label for="email">Adresse e-mail :</label>
+      <input type="email" id="email" name="email" required />
+
+      <button type="submit">Envoyer</button>
+    </form>
+  </article>
+</Layout>
+
+<script>
+  const contactForm = document.getElementById("contactForm");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(contactForm);
+      const email = formData.get("email");
+
+      try {
+        const response = await fetch("http://localhost:4321/api/submit-form", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        if (response.ok) {
+          console.log("Formulaire soumis avec succès !");
+          // Rediriger ou afficher un message de confirmation
+        } else {
+          console.error(
+            "Erreur lors de la soumission du formulaire :",
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error("Erreur lors de la soumission du formulaire :", error);
+      }
+    });
+  }
+</script>
